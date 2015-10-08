@@ -1,0 +1,21 @@
+def solution (A):
+
+    world = [0]*len(A)
+    intersections = sum(map (min, enumerate(A)))
+    count = 0
+
+    for (index, item) in enumerate(A):
+        world[min(index+item,len(A) - 1)] += 1
+    for (index, item) in enumerate(A):
+        if intersections > 10000000:
+            return -1
+        thisValue = max (0,index - item)
+        prevValue = max (0,(index - 1) - A[index - 1])
+
+        if prevValue < thisValue:
+            count += sum(world[prevValue:thisValue])
+        elif thisValue < prevValue:
+            count -= sum(world[thisValue:prevValue])
+        intersections += max(0,index - item) - count
+
+    return intersections
